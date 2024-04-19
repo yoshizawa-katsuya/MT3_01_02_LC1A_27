@@ -50,3 +50,8 @@ typedef struct Box
 	float mass;
 	unsigned int color;
 } Box;
+
+typedef struct Sphere {
+	Vector3 center;
+	float radius;
+} Sphere;

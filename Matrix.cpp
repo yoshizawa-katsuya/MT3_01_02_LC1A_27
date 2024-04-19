@@ -501,3 +501,37 @@ void DrawGrid(const Matrix4x4& viewProjectionMatrix, const Matrix4x4& viewportMa
 		}
 	}
 }
+
+void DrawSphere(const Sphere& sphere, const Matrix4x4& viewProjectionMatrix, const Matrix4x4& viewportMatrix, uint32_t color) {
+
+	const uint32_t kSubdivision = 10;
+	const float kLonEvery = float(2.0f * M_PI) / kSubdivision;
+	const float kLatEvery = float(M_PI) / kSubdivision;
+	
+	for (uint32_t latIndex = 0; latIndex < kSubdivision; ++latIndex) {
+		float lat = float(-M_PI) / 2.0f + kLatEvery * latIndex;
+
+		for (uint32_t lonIndex = 0; lonIndex < kSubdivision; ++lonIndex) {
+			float lon = lonIndex * kLonEvery;
+			Vector3 a, b, c;
+
+			a = { sphere.center.x + sphere.radius * std::cos(lat) * std::cos(lon), sphere.center.y + sphere.radius * std::sin(lat), sphere.center.z + sphere.radius * std::cos(lat) * std::sin(lon) };
+			b = { sphere.center.x + sphere.radius * std::cos(lat + kLatEvery) * std::cos(lon), sphere.center.y + sphere.radius * std::sin(lat + kLatEvery), sphere.center.z + sphere.radius * std::cos(lat + kLatEvery) * std::sin(lon) };
+			c = { sphere.center.x + sphere.radius * std::cos(lat) * std::cos(lon + kLonEvery), sphere.center.y + sphere.radius * std::sin(lat), sphere.center.z + sphere.radius * std::cos(lat) * std::sin(lon + kLonEvery) };
+
+			a = Transform(a, viewProjectionMatrix);
+			a = Transform(a, viewportMatrix);
+
+			b = Transform(b, viewProjectionMatrix);
+			b = Transform(b, viewportMatrix);
+
+			c = Transform(c, viewProjectionMatrix);
+			c = Transform(c, viewportMatrix);
+
+			Novice::DrawLine(int(a.x), int(a.y), int(b.x), int(b.y), color);
+			Novice::DrawLine(int(a.x), int(a.y), int(c.x), int(c.y), color);
+
+		}
+	}
+
+}

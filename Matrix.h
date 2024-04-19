@@ -2,6 +2,7 @@
 #include "Struct.h"
 #include <assert.h>
 #include <Novice.h>
+#define _USE_MATH_DEFINES
 #include <math.h>
 #include <cmath>
 
@@ -70,3 +71,5 @@ Matrix4x4 MakeOrthographicMatrix(float left, float top, float right, float botto
 Matrix4x4 MakeViewportMatrix(float left, float top, float width, float height, float minDepth, float maxDepth);
 
 void DrawGrid(const Matrix4x4& viewProjectionMatrix, const Matrix4x4& viewportMatrix);
+
+void DrawSphere(const Sphere& sphere, const Matrix4x4& viewProjectionMatrix, const Matrix4x4& viewportMatrix, uint32_t color);
